@@ -52,15 +52,15 @@ class TempoDBArchive(object):
                 # self.client.delete_key(series_key, start, end)
             end = start
 
-    def write_sqlite(self, series_key, data):
-        conn = sqlite3.connect(DEFAULT_DATABASE_NAME)
+    def write_sqlite(self, series_key, data, filename=DEFAULT_DATABASE_NAME):
+        conn = sqlite3.connect(filename)
         cur = conn.cursor()
         # I know this might possibly run untrusted code but I'm not aware of
         # a built-in method for escaping identifiers and this is just an
         # archive tool.
         query = '''CREATE TABLE IF NOT EXISTS "{0}" (
-               timestamp text UNIQUE NOT NULL,
-               value real NOT NULL)'''.format(series_key)
+                   timestamp text UNIQUE NOT NULL,
+                   value real NOT NULL)'''.format(series_key)
         cur.execute(query)
         query = 'INSERT INTO "{0}" values (?, ?)'.format(series_key)
         with conn:
