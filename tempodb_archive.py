@@ -48,8 +48,7 @@ class TempoDBArchive(object):
             if not data.data:
                 break
             if delete:
-                print('delete', series_key, start, end)
-                # self.client.delete_key(series_key, start, end)
+                self.client.delete_key(series_key, start, end)
             end = start
 
     def write_sqlite(self, series_key, data):
