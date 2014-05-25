@@ -126,7 +126,7 @@ def parse_args(args=None):
 def parse_config(config_filename=None):
     defaults = {'keep_days': str(KEEP_DAYS), 'interval': str(INTERVAL)}
     config = configparser.SafeConfigParser(defaults, dict)
-    config_files = [f for f in [config_filename, DEFAULT_CONFIG]
+    config_files = [f for f in (config_filename, DEFAULT_CONFIG)
                     if f is not None]
     config.read(config_files)
     return {k.replace(' ', '_'): v for k, v in config.items(CONFIG_SECTION)}
