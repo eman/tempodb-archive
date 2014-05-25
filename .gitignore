@@ -1,0 +1,9 @@
+dist
+build
+iotrelay_tempodb.egg-info
+*.pyc
+*.egg
+.tox
+*.swp
+.DS_Store
+*.sqlite3
