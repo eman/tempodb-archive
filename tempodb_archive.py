@@ -7,7 +7,6 @@ from __future__ import print_function
 import argparse
 import datetime
 import sqlite3
-import sys
 import os
 try:
     import configparser
@@ -106,11 +105,11 @@ def parse_args(args=None):
     parser.add_argument('--api-secret', default=argparse.SUPPRESS,
                         help="TempoDB API Secret")
     subparsers = parser.add_subparsers(help='commands')
-    parser_list = subparsers.add_parser('list', help='list series')
+    parser_list = subparsers.add_parser('list', help='list available series')
     parser_list.set_defaults(cmd='list')
     parser_archive = subparsers.add_parser('archive',
                                            help='archive datapoints')
-    parser_archive.add_argument('series_names', nargs='*',
+    parser_archive.add_argument('series_keys', nargs='*',
                                 default=argparse.SUPPRESS)
     parser_archive.add_argument('-d', '--delete', action='store_true',
                                 default=argparse.SUPPRESS,
@@ -129,7 +128,13 @@ def parse_config(config_filename=None):
     config_files = [f for f in (config_filename, DEFAULT_CONFIG)
                     if f is not None]
     config.read(config_files)
-    return {k.replace(' ', '_'): v for k, v in config.items(CONFIG_SECTION)}
+    config_dict = config.items(CONFIG_SECTION)
+    if 'series names' in config_dict:
+        series_names = config_dict['series names'].split(',')
+        config_dict['series names'] = [sn.strip() for sn in series_names]
+    if 'delete' in config_dict:
+        config_dict['delete'] = config.getboolean(CONFIG_SECTION, 'delete')
+    return {k.replace(' ', '_'): v for k, v in config_dict}
 
 
 def main():
@@ -143,7 +148,7 @@ def main():
         for key in tdb.get_series_keys():
             print(key)
     elif config['cmd'] == 'archive':
-        tdb.archive(config.get('series_names', None),
+        tdb.archive(config.get('series_keys', None),
                     config.get('delete', False))
 
 

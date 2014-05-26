@@ -7,3 +7,4 @@ iotrelay_tempodb.egg-info
 *.swp
 .DS_Store
 *.sqlite3
+*.pdf
