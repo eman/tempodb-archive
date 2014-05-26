@@ -37,8 +37,8 @@ TempoDB Archive tool does not require configuration but frequently (or
 always) used options my be stored in a conifuration file for
 convenience. The TempoDB Archive tool uses the ini format. If left
 unspecified, the TempoDB Archive tool will look for a configuration
-file at $HOME/.tempodb-archive.cfg. This may be overriden by using the
-``-c`` option (see usage).
+file at ``$HOME/.tempodb-archive.cfg``. This may be overriden by using
+the ``-c`` option (see usage).
 
 The following options, stored in a "tempodb", section are recognized:
 
@@ -91,5 +91,3 @@ Usage
     --api-key API_KEY     TempoDB API Key
     --api-secret API_SECRET
                           TempoDB API Secret
-
-
